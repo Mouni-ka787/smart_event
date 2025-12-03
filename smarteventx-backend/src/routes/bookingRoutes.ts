@@ -6,14 +6,17 @@ import {
   getBookingById,
   updateBookingStatus,
   updateTrackingInfo,
-  releasePayment
+  releasePayment,
+  getAdminTracking,
+  getUserTrackableBookings,
+  processPayment
 } from '../controllers/bookingController';
 import { authenticate, authorize } from '../middleware/auth';
 
 const router = express.Router();
 
 router.route('/')
-  .post(authenticate, authorize('user'), createBooking);
+  .post(authenticate, authorize('user', 'admin'), createBooking);
 
 router.route('/user')
   .get(authenticate, authorize('user'), getUserBookings);
@@ -32,5 +35,15 @@ router.route('/:id/tracking')
 
 router.route('/:id/release-payment')
   .put(authenticate, authorize('admin'), releasePayment);
+
+router.route('/:id/process-payment')
+  .post(authenticate, authorize('user'), processPayment);
+
+// New routes for tracking
+router.route('/user/trackable')
+  .get(authenticate, authorize('user'), getUserTrackableBookings);
+
+router.route('/:id/admin-tracking')
+  .get(authenticate, getAdminTracking);
 
 export default router;

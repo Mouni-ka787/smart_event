@@ -3,9 +3,13 @@ import {
   getAdminStats,
   getAdminAnalytics,
   getTopVendors,
-  getBundleSuggestionsForAdmin,
-  getWeakServiceAlertsForAdmin,
-  getTrendingServicesForAdmin
+  getBundleSuggestionsAPI as getBundleSuggestionsForAdmin,
+  getWeakServiceAlertsAPI as getWeakServiceAlertsForAdmin,
+  getAllEventsForAdmin,
+  getAdminBookings,
+  assignVendorToService,
+  getAllVendorAssignments,
+  getAllServicesForAdmin
 } from '../controllers/adminController';
 import { authenticate, authorize } from '../middleware/auth';
 
@@ -31,8 +35,24 @@ router.route('/bundles/suggestions')
 router.route('/services/alerts')
   .get(authenticate, authorize('admin'), getWeakServiceAlertsForAdmin);
 
-// Trending services
-router.route('/services/trending')
-  .get(authenticate, authorize('admin'), getTrendingServicesForAdmin);
+// Assign vendor to service
+router.route('/services/:serviceId/assign-vendor')
+  .post(authenticate, authorize('admin'), assignVendorToService);
+
+// All events for admin
+router.route('/events')
+  .get(authenticate, authorize('admin'), getAllEventsForAdmin);
+
+// Admin's bookings
+router.route('/bookings')
+  .get(authenticate, authorize('admin'), getAdminBookings);
+
+// Get all vendor assignments
+router.route('/vendor-assignments')
+  .get(authenticate, authorize('admin'), getAllVendorAssignments);
+
+// Get all services for admin
+router.route('/services')
+  .get(authenticate, authorize('admin'), getAllServicesForAdmin);
 
 export default router;

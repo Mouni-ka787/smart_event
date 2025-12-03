@@ -6,7 +6,7 @@ export interface IService extends Document {
   category: string;
   price: number;
   priceType: 'per_person' | 'per_event' | 'hourly' | 'package';
-  vendor: mongoose.Types.ObjectId;
+  vendor?: mongoose.Types.ObjectId | string; // Make vendor optional
   images: string[];
   rating?: number;
   reviewCount?: number;
@@ -48,7 +48,7 @@ const ServiceSchema: Schema = new Schema({
   vendor: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: false // Make vendor optional
   },
   images: [{
     type: String

@@ -4,7 +4,7 @@ import User from '../models/User';
 
 // @desc    Get all services
 // @route   GET /api/services
-// @access  Public
+// @access  Public (but filter based on user role)
 export const getServices = async (req: Request, res: Response) => {
   try {
     const pageSize = 10;
@@ -22,10 +22,12 @@ export const getServices = async (req: Request, res: Response) => {
     
     if (search) {
       filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } }
+        { name: { $regex: search, $options: 'i' }}
       ];
     }
+    
+    // For all users (including vendors), show all active services
+    // No need to filter by vendor since vendors should see admin services
     
     const count = await Service.countDocuments(filter);
     const services = await Service.find(filter)
@@ -100,8 +102,12 @@ export const updateService = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Service not found' });
     }
     
-    // Check if user is the vendor
-    if (service.vendor.toString() !== req.user?._id.toString()) {
+    // Allow vendors to edit admin services or their own services
+    const isAdminService = service.vendor === undefined || service.vendor === null; // Admin services have no vendor
+    const isOwnService = service.vendor && service.vendor.toString() === req.user?._id.toString();
+    
+    // Check if user is authorized to update the service
+    if (!isAdminService && !isOwnService) {
       return res.status(401).json({ message: 'User not authorized' });
     }
     
@@ -113,6 +119,11 @@ export const updateService = async (req: Request, res: Response) => {
     service.images = images || service.images;
     service.isActive = isActive !== undefined ? isActive : service.isActive;
     service.location = location || service.location;
+    
+    // If it's an admin service being edited by a vendor, assign the vendor to it
+    if (isAdminService) {
+      service.vendor = req.user?._id;
+    }
     
     const updatedService = await service.save();
     res.json(updatedService);
@@ -132,8 +143,12 @@ export const deleteService = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Service not found' });
     }
     
-    // Check if user is the vendor
-    if (service.vendor.toString() !== req.user?._id.toString()) {
+    // Allow deletion of admin services or own services
+    const isAdminService = service.vendor === undefined || service.vendor === null; // Admin services have no vendor
+    const isOwnService = service.vendor && service.vendor.toString() === req.user?._id.toString();
+    
+    // Check if user is authorized to delete the service
+    if (!isAdminService && !isOwnService) {
       return res.status(401).json({ message: 'User not authorized' });
     }
     

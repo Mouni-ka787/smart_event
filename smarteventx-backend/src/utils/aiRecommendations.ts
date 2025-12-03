@@ -6,6 +6,7 @@
 // import OpenAI from 'openai';
 // import AWS from 'aws-sdk';
 // import { google } from 'googleapis';
+import mongoose from 'mongoose';
 
 interface Service {
   id: string;
@@ -43,7 +44,7 @@ const mockServices: Service[] = [
     price: 35,
     reviewCount: 124,
     description: "Gourmet catering services with customizable menus",
-    vendorId: "vendor1"
+    vendorId: new mongoose.Types.ObjectId().toString() // Generate a proper ObjectId string
   },
   {
     id: "2",
@@ -53,7 +54,7 @@ const mockServices: Service[] = [
     price: 800,
     reviewCount: 89,
     description: "Professional wedding photography capturing your special moments",
-    vendorId: "vendor2"
+    vendorId: new mongoose.Types.ObjectId().toString()
   },
   {
     id: "3",
@@ -63,7 +64,7 @@ const mockServices: Service[] = [
     price: 500,
     reviewCount: 67,
     description: "Transform any venue with our creative decoration services",
-    vendorId: "vendor3"
+    vendorId: new mongoose.Types.ObjectId().toString()
   },
   {
     id: "4",
@@ -73,7 +74,7 @@ const mockServices: Service[] = [
     price: 300,
     reviewCount: 45,
     description: "Professional sound and lighting setup for all events",
-    vendorId: "vendor1"
+    vendorId: new mongoose.Types.ObjectId().toString()
   },
   {
     id: "5",
@@ -83,7 +84,7 @@ const mockServices: Service[] = [
     price: 200,
     reviewCount: 78,
     description: "Beautiful floral arrangements for all occasions",
-    vendorId: "vendor4"
+    vendorId: new mongoose.Types.ObjectId().toString()
   },
   {
     id: "6",
@@ -93,42 +94,42 @@ const mockServices: Service[] = [
     price: 2000,
     reviewCount: 92,
     description: "Full-service event planning from concept to execution",
-    vendorId: "vendor5"
+    vendorId: new mongoose.Types.ObjectId().toString()
   }
 ];
 
 // Mock vendor performance data
 const mockVendorPerformance: VendorPerformance[] = [
   {
-    vendorId: "vendor1",
+    vendorId: mockServices[0].vendorId,
     serviceCount: 5,
     averageRating: 4.7,
     totalRevenue: 15000,
     bookingCount: 42
   },
   {
-    vendorId: "vendor2",
+    vendorId: mockServices[1].vendorId,
     serviceCount: 3,
     averageRating: 4.9,
     totalRevenue: 25000,
     bookingCount: 35
   },
   {
-    vendorId: "vendor3",
+    vendorId: mockServices[2].vendorId,
     serviceCount: 4,
     averageRating: 4.6,
     totalRevenue: 18000,
     bookingCount: 28
   },
   {
-    vendorId: "vendor4",
+    vendorId: mockServices[3].vendorId,
     serviceCount: 2,
     averageRating: 4.9,
     totalRevenue: 8000,
     bookingCount: 22
   },
   {
-    vendorId: "vendor5",
+    vendorId: mockServices[4].vendorId,
     serviceCount: 1,
     averageRating: 4.8,
     totalRevenue: 35000,
@@ -139,7 +140,7 @@ const mockVendorPerformance: VendorPerformance[] = [
 // Mock vendor data
 const mockVendors = [
   {
-    id: "vendor1",
+    id: mockServices[0].vendorId,
     name: "Gourmet Catering Co.",
     category: "Food & Beverage",
     rating: 4.7,
@@ -147,7 +148,7 @@ const mockVendors = [
     location: "New York, NY"
   },
   {
-    id: "vendor2",
+    id: mockServices[1].vendorId,
     name: "Capture Moments Photography",
     category: "Photography",
     rating: 4.9,
@@ -155,7 +156,7 @@ const mockVendors = [
     location: "Los Angeles, CA"
   },
   {
-    id: "vendor3",
+    id: mockServices[2].vendorId,
     name: "Elegant Events Decor",
     category: "Decoration",
     rating: 4.6,
@@ -163,7 +164,7 @@ const mockVendors = [
     location: "Chicago, IL"
   },
   {
-    id: "vendor4",
+    id: mockServices[3].vendorId,
     name: "Bloom & Blossom Florists",
     category: "Florals",
     rating: 4.9,
@@ -171,7 +172,7 @@ const mockVendors = [
     location: "Miami, FL"
   },
   {
-    id: "vendor5",
+    id: mockServices[4].vendorId,
     name: "Perfect Event Planners",
     category: "Planning",
     rating: 4.8,

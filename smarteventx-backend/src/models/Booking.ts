@@ -1,109 +1,62 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IBooking extends Document {
-  user: mongoose.Types.ObjectId;
-  service: mongoose.Types.ObjectId;
-  vendor: mongoose.Types.ObjectId;
-  eventName: string;
-  eventDate: Date;
-  guestCount: number;
+  user?: mongoose.Types.ObjectId | string;
+  event?: mongoose.Types.ObjectId | string;
+  admin?: mongoose.Types.ObjectId | string;
+  service?: mongoose.Types.ObjectId | string;
+  vendor?: mongoose.Types.ObjectId | string;
+  serviceId?: string;
+  serviceName?: string;
+  eventName?: string;
+  eventDate?: Date;
+  guestCount?: number;
   specialRequests?: string;
-  totalPrice: number;
-  status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'refunded';
-  paymentStatus: 'pending' | 'paid' | 'released' | 'refunded';
+  totalPrice?: number;
+  status?: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'refunded';
+  paymentStatus?: 'pending' | 'paid' | 'released' | 'refunded';
   qrCode?: string;
-  trackingInfo?: {
-    currentLocation?: {
-      type: 'Point';
-      coordinates: [number, number];
-    };
-    estimatedArrival?: Date;
-    updates: {
-      status: string;
-      timestamp: Date;
-      description: string;
-    }[];
+  qrData?: string;
+  paypalOrderId?: string;
+  paypalCaptureId?: string;
+  venueLocation?: {
+    address?: string;
+    coordinates?: { lat: number; lng: number } | any;
   };
-  createdAt: Date;
-  updatedAt: Date;
+  adminTrackingInfo?: any;
+  vendorTrackingInfo?: any;
+  debugMarker?: string;
 }
 
-const BookingSchema: Schema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const bookingSchema: Schema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
+  event: { type: Schema.Types.ObjectId, ref: 'Event' },
+  admin: { type: Schema.Types.ObjectId, ref: 'User' },
+  service: { type: Schema.Types.ObjectId, ref: 'Service' },
+  vendor: { type: Schema.Types.ObjectId, ref: 'User' }, // Changed from 'Vendor' to 'User'
+  serviceId: { type: String },
+  serviceName: { type: String },
+  eventName: { type: String },
+  eventDate: { type: Date },
+  guestCount: { type: Number, default: 1 },
+  specialRequests: { type: String },
+  totalPrice: { type: Number, default: 0 },
+  status: { type: String, enum: ['pending','confirmed','in_progress','completed','cancelled','refunded'], default: 'pending' },
+  paymentStatus: { type: String, enum: ['pending','paid','released','refunded'], default: 'pending' },
+  qrCode: { type: String },
+  qrData: { type: String },
+  paypalOrderId: { type: String },
+  paypalCaptureId: { type: String },
+  venueLocation: {
+    address: { type: String },
+    coordinates: {
+      lat: { type: Number },
+      lng: { type: Number }
+    }
   },
-  service: {
-    type: Schema.Types.ObjectId,
-    ref: 'Service',
-    required: true
-  },
-  vendor: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  eventName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  eventDate: {
-    type: Date,
-    required: true
-  },
-  guestCount: {
-    type: Number,
-    required: true,
-    min: 1
-  },
-  specialRequests: {
-    type: String
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-    min: 0
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'confirmed', 'in_progress', 'completed', 'cancelled', 'refunded'],
-    default: 'pending'
-  },
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'paid', 'released', 'refunded'],
-    default: 'pending'
-  },
-  qrCode: {
-    type: String
-  },
-  trackingInfo: {
-    currentLocation: {
-      type: {
-        type: String,
-        enum: ['Point']
-      },
-      coordinates: {
-        type: [Number],
-        index: '2dsphere'
-      }
-    },
-    estimatedArrival: {
-      type: Date
-    },
-    updates: [{
-      status: String,
-      timestamp: {
-        type: Date,
-        default: Date.now
-      },
-      description: String
-    }]
-  }
-}, {
-  timestamps: true
-});
+  adminTrackingInfo: { type: Schema.Types.Mixed },
+  vendorTrackingInfo: { type: Schema.Types.Mixed },
+  debugMarker: { type: String, index: true }
+}, { timestamps: true });
 
-export default mongoose.model<IBooking>('Booking', BookingSchema);
+export default mongoose.model<IBooking>('Booking', bookingSchema);
