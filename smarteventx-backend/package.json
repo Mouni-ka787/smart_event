@@ -1,5 +1,5 @@
 {
-  "name": "smarteventx-backend",
+  "name": "ewe-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,31 +8,38 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:ai": "ts-node src/utils/testAIIntegration.ts"
+    "test:ai": "ts-node src/utils/testAIIntegration.ts",
+    "test:connection": "ts-node src/utils/testConnection.ts",
+    "init:vendors": "node utils/initializeVendorAccountsFixed.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@paypal/paypal-server-sdk": "^2.1.0",
     "aws-sdk": "^2.1692.0",
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "googleapis": "^161.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.20.0",
     "mongoose": "^8.19.0",
     "openai": "^6.1.0",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.6.2",
+    "@types/node": "^24.10.3",
+    "@types/qrcode": "^1.5.6",
     "@types/uuid": "^10.0.0",
-    "nodemon": "^3.1.10",
+    "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

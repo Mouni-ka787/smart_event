@@ -1,6 +1,6 @@
 # AI Service Integration Guide
 
-This document explains how to connect the SmartEventX platform to actual AI services for enhanced recommendations and analytics.
+This document explains how to connect the EWE platform to actual AI services for enhanced recommendations and analytics.
 
 ## Supported AI Services
 

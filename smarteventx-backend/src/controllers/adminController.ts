@@ -389,9 +389,15 @@ export const getAllVendorAssignments = async (req: Request, res: Response) => {
       return res.status(403).json({ message: 'Access denied. Admin access required.' });
     }
 
-    // Get all vendor assignments with populated data
+    // Get all vendor assignments with populated data including booking details and QR code
     const assignments = await VendorAssignment.find()
-      .populate('booking', 'eventName eventDate venueLocation')
+      .populate({
+        path: 'booking',
+        select: 'eventName eventDate venueLocation status qrCode qrData totalPrice guestCount specialRequests vendorTrackingInfo',
+        populate: [
+          { path: 'user', select: 'name email' }
+        ]
+      })
       .populate('vendor', 'name email phoneNumber')
       .populate('service', 'name category')
       .populate('admin', 'name')

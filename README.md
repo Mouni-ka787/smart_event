@@ -1,6 +1,6 @@
-# SmartEventX - Complete Event Management Platform
+# EWE - Complete Event Management Platform
 
-SmartEventX is a comprehensive event management platform that connects users with service providers for all their event planning needs. The platform features multi-role dashboards, AI-powered recommendations, QR-based secure payments, and real-time location tracking.
+EWE is a comprehensive event management platform that connects users with service providers for all their event planning needs. The platform features multi-role dashboards, AI-powered recommendations, QR-based secure payments, and real-time location tracking.
 
 ## Features
 
@@ -48,8 +48,8 @@ SmartEventX is a comprehensive event management platform that connects users wit
 ## Project Structure
 
 ```
-smarteventx/
-├── smarteventx-v2/          # Frontend application
+ewe/
+├── ewe-frontend/          # Frontend application
 │   ├── src/
 │   │   ├── app/             # Next.js app router pages
 │   │   ├── components/      # Reusable UI components
@@ -59,7 +59,7 @@ smarteventx/
 │   │   └── types/           # TypeScript type definitions
 │   └── public/              # Static assets
 │
-├── smarteventx-backend/     # Backend API
+├── ewe-backend/     # Backend API
 │   ├── src/
 │   │   ├── controllers/     # Request handlers
 │   │   ├── middleware/      # Authentication and validation
@@ -83,18 +83,18 @@ smarteventx/
 1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd smarteventx
+   cd ewe
    ```
 
 2. **Frontend Setup:**
    ```bash
-   cd smarteventx-v2
+   cd ewe-frontend
    npm install
    ```
 
 3. **Backend Setup:**
    ```bash
-   cd ../smarteventx-backend
+   cd ../ewe-backend
    npm install
    ```
 
@@ -110,13 +110,13 @@ smarteventx/
 
 1. **Start the Backend:**
    ```bash
-   cd smarteventx-backend
+   cd ewe-backend
    npm run dev
    ```
 
 2. **Start the Frontend:**
    ```bash
-   cd ../smarteventx-v2
+   cd ../ewe-frontend
    npm run dev
    ```
 
@@ -175,27 +175,27 @@ The backend provides a comprehensive RESTful API with the following main endpoin
 
 ## AI Integration
 
-SmartEventX supports integration with leading AI services:
+EWE supports integration with leading AI services:
 
 - **OpenAI GPT Models** for natural language processing and recommendations
 - **AWS Personalize** for personalized user experiences
 - **Google Recommendations AI** for scalable recommendation systems
 
-For detailed AI integration instructions, see [AI_INTEGRATION.md](smarteventx-backend/AI_INTEGRATION.md)
+For detailed AI integration instructions, see [AI_INTEGRATION.md](ewe-backend/AI_INTEGRATION.md)
 
 ## Deployment
 
 ### Frontend Deployment
 The frontend can be deployed to any static hosting service:
 ```bash
-cd smarteventx-v2
+cd ewe-frontend
 npm run build
 ```
 
 ### Backend Deployment
 The backend can be deployed to any Node.js hosting service:
 ```bash
-cd smarteventx-backend
+cd ewe-backend
 npm run build
 npm start
 ```
@@ -204,7 +204,7 @@ npm start
 
 Run the AI integration tests:
 ```bash
-cd smarteventx-backend
+cd ewe-backend
 npm run test:ai
 ```
 
@@ -223,3 +223,22 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For support, please open an issue on the GitHub repository or contact the development team.
+
+
+Overview Flow
+
+User books a service (existing flow).
+
+Backend creates a Booking record → status = "pending".
+
+Backend generates a QR code (linked to booking ID).
+
+QR code is shown in user dashboard → “Awaiting vendor confirmation.”
+
+Vendor scans QR upon arrival (using their dashboard camera).
+
+Scan verifies booking → triggers payment process.
+
+After payment success → booking status = "active" → live location tracking starts.
+
+When service completes → vendor clicks “Complete” → status = "finished".

@@ -10,6 +10,8 @@ import serviceBookingRoutes from './routes/serviceBookingRoutes'; // Add this li
 import bookingRoutes from './routes/bookingRoutes';
 import vendorRoutes from './routes/vendorRoutes';
 import adminRoutes from './routes/adminRoutes';
+import adminTrackingRoutes from './routes/adminTrackingRoutes';
+import vendorTrackingRoutes from './routes/vendorTrackingRoutes';
 import aiRoutes from './routes/aiRoutes';
 import locationRoutes from './routes/locationRoutes';
 import paymentRoutes from './routes/paymentRoutes';
@@ -56,8 +58,10 @@ app.use('/api/bookings/event', eventBookingRoutes);  // Event booking routes (wi
 app.use('/api/bookings/service', serviceBookingRoutes); // Service booking routes (with /service endpoint)
 app.use('/api/bookings', bookingRoutes);        // Legacy booking routes
 app.use('/api/vendors', vendorRoutes);
-app.use('/api/ai', aiRoutes);
+app.use('/api/vendors/tracking', vendorTrackingRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/admin/tracking', adminTrackingRoutes);
+app.use('/api/ai', aiRoutes);
 app.use('/api/location', locationRoutes);
 app.use('/api/payments', paymentRoutes);
 
