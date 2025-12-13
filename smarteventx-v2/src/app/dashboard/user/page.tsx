@@ -156,6 +156,13 @@ export default function UserDashboard() {
 
       // Use provided QR data or fall back to booking QR data
       const qrDataToUse = qrData || booking.qrData;
+      
+      if (!qrDataToUse) {
+        alert('No QR data available for payment processing');
+        return;
+      }
+
+      // Process payment with the QR data
       await api.bookings.processPayment(user.token, booking._id, qrDataToUse);
       alert('Payment processed successfully!');
       fetchData(); // Refresh all data after payment
@@ -340,12 +347,12 @@ export default function UserDashboard() {
                                     </p>
                                     <div className="ml-2 flex-shrink-0 flex">
                                       <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                        booking.status === 'completed' ? (booking.paymentStatus === 'paid' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800') :
+                                        booking.status === 'completed' ? 'bg-green-100 text-green-800' :
                                         booking.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
                                         booking.status === 'confirmed' ? 'bg-yellow-100 text-yellow-800' :
                                         'bg-gray-100 text-gray-800'
                                       }`}>
-                                        {booking.status === 'completed' && booking.paymentStatus === 'paid' ? 'Payment Completed' : booking.status}
+                                        {booking.status}
                                       </p>
                                     </div>
                                   </div>
@@ -369,7 +376,7 @@ export default function UserDashboard() {
                                         🗺️ Track Live
                                       </button>
                                     )}
-                                    {booking.status === 'completed' && booking.qrData && booking.paymentStatus !== 'paid' && (
+                                    {booking.status === 'completed' && booking.qrData && (
                                       <button
                                         onClick={() => openQRScanner(booking)}
                                         className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
@@ -448,7 +455,7 @@ export default function UserDashboard() {
                 </div>
                 <div className="mt-2 px-7 py-3">
                   {mapComponentProps && <MapComponent {...mapComponentProps} />}
-                  {selectedBooking?.status === 'completed' && selectedBooking?.qrCode && selectedBooking?.paymentStatus !== 'paid' && (
+                  {selectedBooking?.status === 'completed' && selectedBooking?.qrCode && (
                     <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center">
                       <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Payment QR Code</h4>
                       <img 
@@ -460,7 +467,7 @@ export default function UserDashboard() {
                         Scan this to complete payment of ${selectedBooking.totalPrice}
                       </p>
                       <button
-                        onClick={() => processPayment(selectedBooking, selectedBooking.qrData)}
+                        onClick={() => processPayment(selectedBooking)}
                         className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700"
                       >
                         💳 Pay with QR Code

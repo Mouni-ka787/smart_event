@@ -48,6 +48,7 @@ export default function Services() {
       
       setServices(data.services || []);
       setTotalPages(data.pages);
+      setError(''); // Clear any previous errors
     } catch (err: any) {
       setError(err.message || 'Failed to fetch services');
     } finally {
@@ -171,6 +172,21 @@ export default function Services() {
                     <h3 className="text-sm font-medium text-red-800">Error loading services</h3>
                     <div className="mt-2 text-sm text-red-700">
                       <p>{error}</p>
+                      {error.includes('Unable to connect to the server') && (
+                        <div className="mt-4 p-3 bg-yellow-50 rounded-md">
+                          <h4 className="font-medium text-yellow-800">Solution:</h4>
+                          <p className="mt-1 text-yellow-700">
+                            Please make sure the backend server is running. Start it with:
+                          </p>
+                          <pre className="mt-2 p-2 bg-gray-800 text-gray-100 rounded text-xs">
+                            cd smarteventx-backend<br/>
+                            npm run dev
+                          </pre>
+                          <p className="mt-2 text-yellow-700">
+                            The backend should run on port 5000.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

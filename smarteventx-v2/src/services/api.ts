@@ -98,7 +98,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
     
     // Provide more user-friendly error messages
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      throw new Error('Unable to connect to the server. Please check your internet connection.');
+      throw new Error('Unable to connect to the server. Please make sure the backend server is running on port 5000.');
     }
     
     throw error;

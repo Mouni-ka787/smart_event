@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'EWE - AI-Powered Event Service Marketplace',
   description: 'Book, manage, and track event services with AI-powered recommendations and secure QR-based payments',
   icons: {
-    icon: '/imglogo.jpeg',
+    icon: '/imglogo.png',
   },
   viewport: {
     width: 'device-width',

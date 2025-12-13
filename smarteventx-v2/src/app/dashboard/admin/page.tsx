@@ -893,12 +893,12 @@ export default function AdminDashboard() {
                                             <h3 className="text-lg font-medium text-gray-900 dark:text-white">{assignment.service?.name || 'Service'}</h3>
                                             {/* FIXED: Status logic wrapped in <span> tag (Source content fixed) */}
                                             <span className={`inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium mt-2 ${
-                                                assignment.status === 'COMPLETED' ? (assignment.booking?.paymentStatus === 'paid' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200') :
+                                                assignment.status === 'COMPLETED' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
                                                 assignment.status === 'EN_ROUTE' || assignment.status === 'ARRIVED' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
                                                 assignment.status === 'ACCEPTED' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                                                 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
                                             }`}>
-                                                {assignment.status === 'COMPLETED' && assignment.booking?.paymentStatus === 'paid' ? 'Payment Completed' : assignment.status}
+                                                {assignment.status}
                                             </span>
                                             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Vendor: {assignment.vendor?.name || 'N/A'} ({assignment.vendor?.email || 'N/A'})</p>
                                             <p className="text-sm text-gray-500 dark:text-gray-400">Booking Date: {assignment.booking?.eventDate ? new Date(assignment.booking.eventDate).toLocaleDateString() : 'N/A'}</p>
@@ -909,8 +909,8 @@ export default function AdminDashboard() {
                                                 <p className="text-sm text-red-600 dark:text-red-400 mt-1">Special Requests: {assignment.booking.specialRequests}</p>
                                             )}
                                             
-                                            {/* Display QR code for completed vendor services (only if payment not yet completed) */}
-                                            {assignment.status === 'COMPLETED' && assignment.booking?.qrCode && assignment.booking?.paymentStatus !== 'paid' && (
+                                            {/* Display QR code for completed vendor services */}
+                                            {assignment.status === 'COMPLETED' && assignment.booking?.qrCode && (
                                                 <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
                                                     <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Payment QR Code</h4>
                                                     <img 

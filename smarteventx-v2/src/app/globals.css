@@ -30,7 +30,11 @@ body {
 
 /* Custom button styles */
 .btn {
-  @apply px-4 py-2 rounded-button font-semibold transition-colors;
+  @apply px-4 py-2 rounded-button font-semibold transition-all duration-300 ease-in-out transform;
+}
+
+.btn:hover {
+  @apply scale-105;
 }
 
 /* Responsive button - full width on small screens */
@@ -42,28 +46,100 @@ body {
   background-color: var(--theme-accent);
   color: var(--theme-primary);
 }
+
 .btn-accent:hover {
   opacity: 0.9;
+  box-shadow: 0 10px 25px rgba(240, 195, 142, 0.4);
+  transform: scale(1.05);
 }
 
 .btn-secondary {
   background-color: var(--theme-secondary);
   color: var(--theme-text);
 }
+
 .btn-secondary:hover {
   opacity: 0.9;
+  box-shadow: 0 10px 25px rgba(72, 66, 109, 0.4);
+  transform: scale(1.05);
 }
 
 /* Input styles */
 input, textarea, select {
   background-color: var(--theme-secondary);
   border-color: var(--theme-secondary);
-  @apply rounded-md p-2 border;
+  @apply rounded-md p-2 border transition-all duration-300;
+}
+
+input:focus, textarea:focus, select:focus {
+  --tw-ring-color: var(--theme-accent);
+  @apply ring-2 outline-none;
 }
 
 /* Responsive images */
 img.responsive {
-  @apply max-w-full h-auto;
+  @apply max-w-full h-auto transition-transform duration-300 ease-in-out;
+}
+
+img.responsive:hover {
+  @apply scale-105;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300 ease-in-out transform;
+}
+
+.card-hover:hover {
+  @apply scale-105 shadow-xl;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  @apply bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent;
+}
+
+/* Animated gradient border */
+.animated-border {
+  position: relative;
+  background: linear-gradient(var(--theme-primary), var(--theme-primary)) padding-box,
+              linear-gradient(45deg, var(--theme-accent), var(--theme-highlight)) border-box;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.animated-border:hover {
+  background: linear-gradient(var(--theme-primary), var(--theme-primary)) padding-box,
+              linear-gradient(225deg, var(--theme-accent), var(--theme-highlight)) border-box;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(240, 195, 142, 0.3);
+}
+
+/* Enhanced hover effects for buttons */
+.hover-scale {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.hover-scale:hover {
+  @apply scale-105;
+}
+
+.hover-shadow {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.hover-shadow:hover {
+  @apply shadow-lg;
+}
+
+.hover-lift {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  @apply shadow-xl;
 }
 
 /* Responsive spacing adjustments for mobile */
@@ -83,9 +159,4 @@ img.responsive {
   .mobile-text-base {
     @apply text-base;
   }
-}
-
-input:focus, textarea:focus, select:focus {
-  --tw-ring-color: var(--theme-accent);
-  @apply ring-2 outline-none;
 }
