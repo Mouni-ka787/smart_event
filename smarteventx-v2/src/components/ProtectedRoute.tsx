@@ -18,20 +18,8 @@ export default function ProtectedRoute({
     if (!isLoading && !user) {
       router.push('/login');
     } else if (!isLoading && user && allowedRoles && !allowedRoles.includes(user.role)) {
-      // Redirect based on user role
-      switch (user.role) {
-        case 'user':
-          router.push('/dashboard/user');
-          break;
-        case 'vendor':
-          router.push('/dashboard/vendor');
-          break;
-        case 'admin':
-          router.push('/dashboard/admin');
-          break;
-        default:
-          router.push('/');
-      }
+      // Redirect users who try to access pages not meant for their role
+      router.push(`/dashboard/${user.role}`);
     }
   }, [user, isLoading, router, allowedRoles]);
 
@@ -43,10 +31,12 @@ export default function ProtectedRoute({
     );
   }
 
+  // If user is not authenticated, don't render anything (they'll be redirected)
   if (!user) {
     return null;
   }
 
+  // If specific roles are required and user doesn't have the right role, don't render
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     return null;
   }

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove output: 'export' since we have dynamic routes that require runtime data fetching
+  // output: 'export',
   distDir: 'out',
   images: {
     unoptimized: true

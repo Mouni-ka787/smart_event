@@ -3,25 +3,89 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --theme-primary: #312C51;
+  --theme-secondary: #48426D;
+  --theme-accent: #F0C38E;
+  --theme-highlight: #F1AA9B;
+  --theme-text: #E5E7EB; /* Light gray for text */
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: var(--theme-primary);
+  color: var(--theme-text);
+}
+
+/* Rounded UI styles */
+.rounded-box {
+  border-radius: 1rem; /* 16px */
+}
+
+.rounded-card {
+  border-radius: 0.75rem; /* 12px */
+}
+
+.rounded-button {
+  border-radius: 0.5rem; /* 8px */
+}
+
+/* Custom button styles */
+.btn {
+  @apply px-4 py-2 rounded-button font-semibold transition-colors;
+}
+
+/* Responsive button - full width on small screens */
+.btn-responsive {
+  @apply w-full sm:w-auto;
+}
+
+.btn-accent {
+  background-color: var(--theme-accent);
+  color: var(--theme-primary);
+}
+.btn-accent:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background-color: var(--theme-secondary);
+  color: var(--theme-text);
+}
+.btn-secondary:hover {
+  opacity: 0.9;
+}
+
+/* Input styles */
+input, textarea, select {
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-secondary);
+  @apply rounded-md p-2 border;
+}
+
+/* Responsive images */
+img.responsive {
+  @apply max-w-full h-auto;
+}
+
+/* Responsive spacing adjustments for mobile */
+@media (max-width: 640px) {
+  .mobile-padding {
+    @apply px-4;
+  }
+  
+  .mobile-margin {
+    @apply my-4;
+  }
+  
+  .mobile-text-sm {
+    @apply text-sm;
+  }
+  
+  .mobile-text-base {
+    @apply text-base;
+  }
+}
+
+input:focus, textarea:focus, select:focus {
+  --tw-ring-color: var(--theme-accent);
+  @apply ring-2 outline-none;
 }

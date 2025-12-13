@@ -1,4 +1,5 @@
 "use client";
+'use client';
 
 import Header from '@/components/Header';
 import Link from 'next/link';
@@ -43,7 +44,9 @@ export default function Services() {
       }
       
       const data = await servicesAPI.getAll(params);
-      setServices(data.services);
+      
+      
+      setServices(data.services || []);
       setTotalPages(data.pages);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch services');
@@ -67,9 +70,9 @@ export default function Services() {
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Event Services</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Services</h1>
               <p className="mt-1 text-sm text-gray-500">
-                Browse our wide selection of event services
+                Browse our available event services
               </p>
             </div>
             <div className="mt-4 flex md:mt-0">

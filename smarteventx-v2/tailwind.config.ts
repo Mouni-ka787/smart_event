@@ -6,6 +6,7 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class', // Enable dark mode with class strategy
   theme: {
     extend: {
       backgroundImage: {
@@ -35,6 +36,10 @@ const config: Config = {
         }
       },
       colors: {
+        'theme-primary': '#312C51',
+        'theme-secondary': '#48426D',
+        'theme-accent': '#F0C38E',
+        'theme-highlight': '#F1AA9B',
         primary: {
           50: '#eef2ff',
           100: '#e0e7ff',

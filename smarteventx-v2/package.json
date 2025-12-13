@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/clean-android.js && next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next export"
+    "export": "next export",
+    "build:capacitor": "npm run build && node scripts/prepare-capacitor.js",
+    "sync:android": "npm run build:capacitor && npx cap sync android",
+    "clean:android": "node scripts/clean-android.js"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",
@@ -25,7 +28,7 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
     "eslint": "^8",
-    "eslint-config-next": "^13.5.2",
+    "eslint-config-next": "^13.5.11",
     "postcss": "^8",
     "tailwindcss": "^3",
     "typescript": "^5"

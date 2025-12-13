@@ -5,24 +5,26 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { bookingsAPI } from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 
-export default function TrackingPage({ params }: { params: { id: string } }) {
+export default function TrackingPage() {
   const [booking, setBooking] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
   const { user } = useAuth();
+  const { id } = useParams();
 
   useEffect(() => {
     fetchBooking();
-  }, [params.id]);
+  }, [id]);
 
   const fetchBooking = async () => {
-    if (!user) return;
+    if (!user || !id) return;
     
     try {
       setLoading(true);
-      const data = await bookingsAPI.getById(user.token, params.id);
+      const data = await bookingsAPI.getById(user.token, id as string);
       setBooking(data);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch booking');
@@ -74,7 +76,7 @@ export default function TrackingPage({ params }: { params: { id: string } }) {
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h3 className="text-lg font-medium text-gray-900">Booking not found</h3>
-            <p className="mt-1 text-sm text-gray-500">The booking you're looking for doesn't exist or has been removed.</p>
+            <p className="mt-1 text-sm text-gray-500">The booking you&apos;re looking for doesn&apos;t exist or has been removed.</p>
             <div className="mt-6">
               <a href="/dashboard/user" className="text-primary-600 hover:text-primary-500">
                 Back to dashboard

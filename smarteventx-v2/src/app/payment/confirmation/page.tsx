@@ -1,6 +1,81 @@
-import Header from '@/components/Header';
+"use client";
 
-export default function PaymentConfirmation() {
+import Header from '@/components/Header';
+import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { bookingsAPI } from '@/services/api';
+import { useAuth } from '@/contexts/AuthContext';
+import { Suspense } from 'react';
+
+// Create a component that uses useSearchParams
+function PaymentConfirmationContent() {
+  const [booking, setBooking] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { user } = useAuth();
+  
+  const bookingId = searchParams.get('bookingId');
+
+  useEffect(() => {
+    if (bookingId && user) {
+      fetchBookingDetails();
+    }
+  }, [bookingId, user]);
+
+  const fetchBookingDetails = async () => {
+    try {
+      setLoading(true);
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+      const data = await bookingsAPI.getById(user!.token, bookingId || '');
+      setBooking(data);
+    } catch (err: any) {
+      setError(err.message || 'Failed to fetch booking details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="flex justify-center items-center h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">Error loading booking</h3>
+                <div className="mt-2 text-sm text-red-700">
+                  <p>{error}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -29,7 +104,7 @@ export default function PaymentConfirmation() {
                   <h3 className="mt-4 text-2xl font-medium text-gray-900">Payment Successful!</h3>
                   <div className="mt-2 max-w-xl mx-auto text-gray-500">
                     <p>
-                      Your payment has been processed successfully. A confirmation email has been sent to your email address.
+                      Your payment has been processed successfully through PayPal. A confirmation email has been sent to your email address.
                     </p>
                   </div>
 
@@ -38,23 +113,37 @@ export default function PaymentConfirmation() {
                     <div className="mt-4 space-y-4">
                       <div className="flex justify-between">
                         <p className="text-sm text-gray-600">Service</p>
-                        <p className="text-sm font-medium text-gray-900">Premium Catering</p>
+                        <p className="text-sm font-medium text-gray-900">{booking?.service?.name || 'N/A'}</p>
                       </div>
                       <div className="flex justify-between">
                         <p className="text-sm text-gray-600">Vendor</p>
-                        <p className="text-sm font-medium text-gray-900">Gourmet Catering Co.</p>
+                        <p className="text-sm font-medium text-gray-900">{booking?.vendor?.name || 'N/A'}</p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p className="text-sm text-gray-600">Event Name</p>
+                        <p className="text-sm font-medium text-gray-900">{booking?.eventName || 'N/A'}</p>
                       </div>
                       <div className="flex justify-between">
                         <p className="text-sm text-gray-600">Event Date</p>
-                        <p className="text-sm font-medium text-gray-900">June 15, 2023</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {booking?.eventDate ? new Date(booking.eventDate).toLocaleDateString() : 'N/A'}
+                        </p>
                       </div>
                       <div className="flex justify-between">
                         <p className="text-sm text-gray-600">Guests</p>
-                        <p className="text-sm font-medium text-gray-900">50</p>
+                        <p className="text-sm font-medium text-gray-900">{booking?.guestCount || 'N/A'}</p>
                       </div>
                       <div className="border-t border-gray-200 pt-4 flex justify-between">
                         <p className="text-base font-medium text-gray-900">Total Paid</p>
-                        <p className="text-base font-medium text-gray-900">$2,175.00</p>
+                        <p className="text-base font-medium text-gray-900">${booking?.totalPrice?.toFixed(2) || '0.00'}</p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p className="text-sm text-gray-600">Payment Method</p>
+                        <p className="text-sm font-medium text-gray-900">PayPal</p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p className="text-sm text-gray-600">Transaction ID</p>
+                        <p className="text-sm font-medium text-gray-900">{booking?.paypalCaptureId?.substring(0, 12) || 'N/A'}</p>
                       </div>
                     </div>
                   </div>
@@ -112,14 +201,14 @@ export default function PaymentConfirmation() {
 
                   <div className="mt-8 flex justify-center">
                     <button
-                      type="button"
-                      className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => router.push(`/tracking/${bookingId}`)}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
-                      View Booking Details
+                      Track Your Service
                     </button>
                     <button
-                      type="button"
-                      className="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => router.push('/dashboard/user')}
+                      className="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                     >
                       Back to Dashboard
                     </button>
@@ -131,5 +220,14 @@ export default function PaymentConfirmation() {
         </div>
       </main>
     </div>
+  );
+}
+
+// Wrap the component with Suspense
+export default function PaymentConfirmation() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentConfirmationContent />
+    </Suspense>
   );
 }
