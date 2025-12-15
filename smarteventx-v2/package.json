@@ -15,7 +15,10 @@
     "@capacitor/cli": "^7.4.4",
     "@capacitor/core": "^7.4.4",
     "@capacitor/ios": "^7.4.4",
-    "next": "^15.5.4",
+    
+    "next": "15.5.5",
+
+
     "react": "^18",
     "react-dom": "^18",
     "socket.io-client": "^4.8.1"
