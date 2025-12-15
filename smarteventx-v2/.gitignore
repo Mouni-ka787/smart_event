@@ -33,3 +33,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+android/
+ios/
+capacitor.config.*
+scripts/clean-android.js
+scripts/prepare-capacitor.js
+android/
+ios/

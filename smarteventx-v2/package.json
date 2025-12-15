@@ -6,13 +6,8 @@
 
   "build": "next build",
   "start": "next start",
-  "lint": "next lint",
+  "lint": "next lint"
 
-  "build:android": "node scripts/clean-android.js && next build",
-  "build:capacitor": "npm run build:android && node scripts/prepare-capacitor.js",
-  "sync:android": "npm run build:capacitor && npx cap sync android",
-
-  "clean:android": "node scripts/clean-android.js"
 },
 
   "dependencies": {
