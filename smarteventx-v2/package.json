@@ -1,17 +1,20 @@
 {
   "name": "ewe-frontend",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "node scripts/clean-android.js && next build",
-    "start": "next start",
-    "lint": "next lint",
-    "export": "next export",
-    "build:capacitor": "npm run build && node scripts/prepare-capacitor.js",
-    "sync:android": "npm run build:capacitor && npx cap sync android",
-    "clean:android": "node scripts/clean-android.js"
-  },
+"scripts": {
+  "dev": "next dev",
+
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+
+  "build:android": "node scripts/clean-android.js && next build",
+  "build:capacitor": "npm run build:android && node scripts/prepare-capacitor.js",
+  "sync:android": "npm run build:capacitor && npx cap sync android",
+
+  "clean:android": "node scripts/clean-android.js"
+},
+
   "dependencies": {
     "@capacitor/android": "^7.4.4",
     "@capacitor/cli": "^7.4.4",
