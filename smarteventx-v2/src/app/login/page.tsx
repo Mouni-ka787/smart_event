@@ -30,17 +30,17 @@ export default function Login() {
       console.log('Attempting login with:', { email, password });
       const userData = await login(email, password);
       console.log('Login successful:', userData);
-      // Redirect based on user role
+      // Redirect based on user role - replace instead of push to avoid back button issues
       switch (userData.role) {
         case 'admin':
-          router.push('/dashboard/admin');
+          router.replace('/dashboard/admin');
           break;
         case 'vendor':
-          router.push('/dashboard/vendor');
+          router.replace('/dashboard/vendor');
           break;
         case 'user':
         default:
-          router.push('/dashboard/user');
+          router.replace('/dashboard/user');
           break;
       }
     } catch (err: any) {

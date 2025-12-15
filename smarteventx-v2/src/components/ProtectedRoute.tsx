@@ -16,10 +16,10 @@ export default function ProtectedRoute({
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push('/login');
+      router.replace('/login');
     } else if (!isLoading && user && allowedRoles && !allowedRoles.includes(user.role)) {
       // Redirect users who try to access pages not meant for their role
-      router.push(`/dashboard/${user.role}`);
+      router.replace(`/dashboard/${user.role}`);
     }
   }, [user, isLoading, router, allowedRoles]);
 

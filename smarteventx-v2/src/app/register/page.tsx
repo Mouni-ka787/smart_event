@@ -44,7 +44,7 @@ export default function Register() {
       console.log('Attempting registration with:', { name, email, password, role, phoneNumber });
       await register({ name, email, password, role, phoneNumber });
       console.log('Registration successful');
-      router.push('/dashboard/user');
+      router.replace('/dashboard/user');
     } catch (err: any) {
       console.error('Registration error:', err);
       // Provide more specific error messages

@@ -16,13 +16,13 @@ export default function DashboardLayout({
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push('/login');
+      router.replace('/login');
     }
   }, [user, isLoading, router]);
 
   const handleLogout = () => {
     logout();
-    router.push('/');
+    router.replace('/');
   };
 
   if (isLoading) {

@@ -1,6 +1,6 @@
 // API service for EWE frontend
 // Normalize base URL: remove trailing slash and a trailing '/api' if present
-let API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
+let API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://smart-event-backend.onrender.com';
 API_BASE_URL = API_BASE_URL.replace(/\/$/, '');
 // Ensure base ends with '/api' so we have a single source of truth for the API prefix
 if (!API_BASE_URL.endsWith('/api')) {

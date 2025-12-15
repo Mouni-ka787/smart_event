@@ -41,7 +41,7 @@ class WebSocketService {
     this.token = token;
     
     // Initialize socket connection
-    this.socket = io(process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:5000', {
+    this.socket = io(process.env.NEXT_PUBLIC_WS_URL || 'https://smart-event-backend.onrender.com', {
       auth: {
         token: this.token
       },
@@ -147,7 +147,7 @@ class WebSocketService {
   // Fallback REST API for location updates when WebSocket is unavailable
   async sendLocationUpdateREST(locationData: LocationUpdate) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api'}/vendors/${locationData.vendorId}/location`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://smart-event-backend.onrender.com'}/vendors/${locationData.vendorId}/location`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
